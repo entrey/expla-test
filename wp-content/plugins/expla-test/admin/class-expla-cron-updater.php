@@ -1,5 +1,10 @@
 <?php
+
+defined( 'ABSPATH' ) || exit;
+
 /**
+ * Cron updater manager.
+ *
  * @package Expla_Test/admin
  * @author  Roman Peniaz <roman.peniaz@gmail.com>
  */
@@ -21,8 +26,33 @@ class Expla_Cron_Updater {
 		add_action( 'expla/cron/sync-posts', [ $this, 'sync_posts_with_api' ] );
 	}
 
-	public function sync_posts_with_api() {
-		$api_posts = $this->retrieve_api_posts();
+	public function sync_posts_with_api():void {
+		$posts = $this->retrieve_api_posts();
+		$this->save_api_posts( $posts );
+	}
+
+	protected function retrieve_api_posts():array {
+		$response = wp_remote_get( 'https://my.api.mockaroo.com/posts.json', [
+			'headers' => [
+				'X-API-Key' => '413dfbf0'
+			]
+		] );
+
+		if ( is_wp_error( $response ) ) {
+			throw new Exception( $response->get_error_message() );
+		}
+
+		$body = wp_remote_retrieve_body( $response );
+		$posts = json_decode( $body );
+
+		if ( $posts === null && json_last_error() !== JSON_ERROR_NONE ) {
+			throw new Exception( 'JSON: ' . json_last_error_msg() );
+		}
+
+		return $posts;
+	}
+
+	protected function save_api_posts( array $api_posts ) {
 		$author_id = $this->retrieve_admin_id();
 
 		foreach ( $api_posts as $api_post ) {
@@ -56,27 +86,6 @@ class Expla_Cron_Updater {
 			$attachment_id = $this->save_api_post_image( $api_post->image, $api_post->title );
 			set_post_thumbnail( $post_id, $attachment_id );
 		}
-	}
-
-	protected function retrieve_api_posts():array {
-		$response = wp_remote_get( 'https://my.api.mockaroo.com/posts.json', [
-			'headers' => [
-				'X-API-Key' => '413dfbf0'
-			]
-		] );
-
-		if ( is_wp_error( $response ) ) {
-			throw new Exception( $response->get_error_message() );
-		}
-
-		$body = wp_remote_retrieve_body( $response );
-		$posts = json_decode( $body );
-
-		if ( $posts === null && json_last_error() !== JSON_ERROR_NONE ) {
-			throw new Exception( 'JSON: ' . json_last_error_msg() );
-		}
-
-		return $posts;
 	}
 
 	protected function retrieve_admin_id():int {
