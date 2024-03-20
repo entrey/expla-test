@@ -99,11 +99,9 @@ class Expla_Cron_Updater {
 		return date( 'Y-m-d H:i:s', $random_timestamp );
 	}
 
-	protected function retrieve_category_id( $category_name ):int {
-		$category = get_category_by_slug( sanitize_title( $category_name ) );
-
-		if ( ! empty( $category->term_id ) ) {
-			return $category->term_id;
+	protected function retrieve_category_id( string $category_name ):array {
+		if ( ! function_exists( 'wp_create_category' ) )  {
+			require_once ABSPATH . 'wp-admin/includes/taxonomy.php';
 		}
 
 		$category_id = wp_create_category( $category_name );
@@ -112,7 +110,7 @@ class Expla_Cron_Updater {
 			throw new Exception( 'Category creation error: ' . $category_id->get_error_message() );
 		}
 
-		return $category_id;
+		return [ $category_id ];
 	}
 
 	protected function save_api_post_image( $img_url, $img_name ):int {
