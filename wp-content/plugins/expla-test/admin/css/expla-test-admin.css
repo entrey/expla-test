@@ -1,0 +1,56 @@
+.expla {
+    margin: 3rem 1rem;
+}
+
+.expla input {
+    height: 30px;
+    vertical-align: top;
+    border-width: 1px;
+    border-radius: unset;
+}
+.expla input::placeholder {
+    color: #00000080;
+}
+.expla [type="submit"] {
+    color: #ffffff;
+    background-color: #000000;
+}
+
+.expla .query-form input {
+    width: 190px;
+    font-size: 1.3rem;
+}
+
+.expla .query-result {
+    margin-top: 3rem;
+}
+.expla .query-result .title .keyword {
+    color: #50c8e5;
+}
+.expla .query-result .result__table {
+    border-collapse: collapse;
+}
+.expla .query-result th,
+.expla .query-result td {
+    width: 160px;
+    border: 1px solid black;
+}
+.expla .query-result td {
+    height: 50px;
+    padding: 5px;
+}
+.expla .query-result .table__column h3 {
+    margin: 10px;
+}
+
+.expla .query-result .replace-form {
+    margin: 10px;
+}
+.expla .query-result input {
+    width: 120px;
+    min-height: auto;
+    height: 25px;
+}
+.expla .query-result input + input {
+    margin-top: 5px;
+}
