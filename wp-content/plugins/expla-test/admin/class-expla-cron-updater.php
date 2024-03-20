@@ -113,9 +113,16 @@ class Expla_Cron_Updater {
 		return [ $category_id ];
 	}
 
-	protected function save_api_post_image( $img_url, $img_name ):int {
+	protected function save_api_post_image( string $img_url ):int {
+		preg_match_all( '/([^\/?#]+)\.\w+/', $img_url, $matches );
+		$file_name = $matches[0][1] ?? null;
+
+		if ( ! $file_name ) {
+			throw new Exception( 'Cannot derrive image name from URL: ' . $img_url );
+		}
+
 		$upload_file = wp_upload_bits(
-			sanitize_title( $img_name ),
+			$file_name,
 			null,
 			file_get_contents( $img_url )
 		);
@@ -140,6 +147,11 @@ class Expla_Cron_Updater {
 		if ( is_wp_error( $attachment_id ) ) {
 			throw new Exception( 'WP Media error: ' . $attachment_id->get_error_message() );
 		}
+
+		if ( ! function_exists( 'wp_generate_attachment_metadata' ) ) {
+			require_once ABSPATH . 'wp-admin/includes/image.php';
+		}
+
 		$attachment_data = wp_generate_attachment_metadata( $attachment_id, $file_path );
 		wp_update_attachment_metadata( $attachment_id, $attachment_data );
 
