@@ -18,11 +18,11 @@ class Expla_Cron_Updater {
 	}
 
 	public function __construct() {
-		add_action( 'expla/cron/sync-posts', [ $this, 'api_sync_posts' ] );
+		add_action( 'expla/cron/sync-posts', [ $this, 'sync_posts_with_api' ] );
 	}
 
-	public function api_sync_posts() {
-		$api_posts = $this->retrieve_api_posts(); // Статті потрібно отримувати з API Reponse
+	public function sync_posts_with_api() {
+		$api_posts = $this->retrieve_api_posts();
 		$author_id = $this->retrieve_admin_id();
 
 		foreach ( $api_posts as $api_post ) {
@@ -34,17 +34,17 @@ class Expla_Cron_Updater {
 			] );
 
 			if ( $exist_post ) {
-				continue; // Якщо стаття з таким заголовком уже є базі, її не потрібно заливати;
+				continue;
 			}
 
 			$new_post = [
 				'post_title'   => $api_post->title,
 				'post_content' => $api_post->content,
 				'post_status'  => 'publish',
-				'post_author'  => $author_id, // Автор кожної статті - перший знайдений юзер з ролю “administrator”;
+				'post_author'  => $author_id,
 				'post_type'    => 'post',
-				'post_date'    => $this->get_random_post_date(), // Дата публікації має бути випадковою: від “сьогодні” до “мінус 1 місяць”.
-				'post_category' => $this->retrieve_category_id( $api_post->category ), // В response є категорія, вона має присвоюватись посту. Якщо такої немає - то створювати;
+				'post_date'    => $this->get_random_post_date(),
+				'post_category' => $this->retrieve_category_id( $api_post->category ),
 			];
 
 			$post_id = wp_insert_post( $new_post );
@@ -54,7 +54,7 @@ class Expla_Cron_Updater {
 			}
 
 			$attachment_id = $this->save_api_post_image( $api_post->image, $api_post->title );
-			set_post_thumbnail( $post_id, $attachment_id ); // Image потрібно заливати в Media і проставляти як featured image (post thumbnail);
+			set_post_thumbnail( $post_id, $attachment_id );
 		}
 	}
 
