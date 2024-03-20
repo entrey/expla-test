@@ -14,7 +14,7 @@
  *
  * @wordpress-plugin
  * Plugin Name:       Expla Test
- * Plugin URI:        https://github.com/entrey
+ * Plugin URI:        https://github.com/entrey/expla-test
  * Description:       Plugin description.
  * Version:           1.0.0
  * Author:            Roman Peniaz

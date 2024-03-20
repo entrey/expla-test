@@ -69,7 +69,8 @@ class Expla_Test {
 		/** Actions of admin area. */
 		require_once $dir_path . 'admin/class-expla-test-admin.php';
 
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-expla-db-manager.php';
+		/** Cron updater manager. */
+		require_once $dir_path . 'admin/class-expla-cron-updater.php';
 
 		/** Actions of public-facing side. */
 		require_once $dir_path . 'public/class-expla-test-public.php';
@@ -85,7 +86,7 @@ class Expla_Test {
 
 	private function define_admin_hooks() {
 		$plugin_admin = new Expla_Test_Admin( $this->get_plugin_name(), $this->get_version() );
-		$db_manager = new Expla_DB_Manager();
+		new Expla_Cron_Updater();
 
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_styles' );
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts' );
