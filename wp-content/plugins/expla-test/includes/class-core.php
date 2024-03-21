@@ -44,10 +44,8 @@ class Core
     {
         $dir_path = plugin_dir_path(dirname(__FILE__));
 
-        /** Actions and filters. */
+        /** Loader. */
         require_once $dir_path . 'includes/class-loader.php';
-        require_once $dir_path . 'admin/class-admin-functionality.php';
-        require_once $dir_path . 'public/class-public-functionality.php';
 
         /** Cron updater manager. */
         require_once $dir_path . 'admin/class-cron-updater.php';
@@ -60,35 +58,17 @@ class Core
 
     private function defineAdminHooks()
     {
-        $plugin_admin = new AdminFunctionality($this->getPluginName(), $this->getVersion());
         new CronUpdater();
-
-        $this->loader->addAction('admin_enqueue_scripts', $plugin_admin, 'enqueueStyles');
-        $this->loader->addAction('admin_enqueue_scripts', $plugin_admin, 'enqueueScripts');
     }
 
     private function definePublicHooks()
     {
-        $plugin_public = new PublicFunctionality($this->getPluginName(), $this->getVersion());
         $shortcode_articles = new ShortcodeArticles();
-
-        $this->loader->addAction('wp_enqueue_scripts', $plugin_public, 'enqueueStyles');
-        $this->loader->addAction('wp_enqueue_scripts', $plugin_public, 'enqueueScripts');
         $this->loader->addAction('wp_enqueue_scripts', $shortcode_articles, 'enqueueStyles');
     }
 
     public function run()
     {
         $this->loader->run();
-    }
-
-    public function getPluginName()
-    {
-        return $this->plugin_name;
-    }
-
-    public function getVersion()
-    {
-        return $this->version;
     }
 }

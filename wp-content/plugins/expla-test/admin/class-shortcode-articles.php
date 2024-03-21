@@ -36,7 +36,7 @@ class ShortcodeArticles
         );
     }
 
-    public function articlesShortcode($atts)
+    public function articlesShortcode($atts): string
     {
         $this->atts = shortcode_atts(
             [
@@ -56,10 +56,6 @@ class ShortcodeArticles
 
     protected function validateAtts(): void
     {
-        if (empty($this->atts)) {
-            throw new \InvalidArgumentException('Shortcode attributes missing.');
-        }
-
         $sort_allowed_values = [ 'date', 'title', 'rating' ];
         if (! in_array($this->atts['sort'], $sort_allowed_values)) {
             throw new \InvalidArgumentException('Invalid shortcode value: ' . $this->atts['sort']);
@@ -88,36 +84,41 @@ class ShortcodeArticles
         global $post;
 
         $result = '<div class="expla-shortcode-articles">';
-        $result .= '<h2>' . esc_html($this->atts['title']) . '</h2>';
+        $result .= '<h2 class="shortcode-articles__title">' . esc_html($this->atts['title']) . '</h2>';
 
         foreach ($posts as $post) {
             setup_postdata($post);
 
             $result .= '
-				<article class="shortcode-articles__article">
-					<div class="article__img">
-						<img src="' . wp_get_attachment_url(get_post_thumbnail_id($post->ID)) . '" />
-					</div>
-					<div class="article__content">
-						<div class="content__categories">
-							' . get_the_category_list(', ') . '
-						</div>
-						<div class="content__title">
-							' . esc_html($post->post_title) . '
-						</div>
-
-						<p class="testimonial_desc">' . get_the_content() . '</p>
-
-						<div class="author-details">
-							<img src="' . esc_attr($post->author_image) . '" alt="image">
-							<p>'
-                                . esc_html($post->author_name)
-                                . '<span>' . esc_html($post->author_designation) . '</span>
-							</p>
-						</div>
-					</div>
-				</div>
-			';
+                <article class="shortcode-articles__article">
+                    <div class="article__img">
+                        <img src="' . wp_get_attachment_url(get_post_thumbnail_id($post->ID)) . '" alt="">
+                    </div>
+                    <div class="article__content">
+                        <div class="content__categories">
+                            ' . get_the_category_list(', ') . '
+                        </div>
+                        <div class="content__title">
+                            ' . esc_html($post->post_title) . '
+                        </div>
+                        <div class="content__actions">
+                            <div class="actions__permalink">
+                                <a href="' . get_permalink($post->ID) . '" class="permalink">
+                                    ' . esc_html__('Read More', 'expla-test') . '
+                                </a>
+                            </div>
+                            <div class="actions__rating">
+                                ⭐ ' . esc_html__('4.3', 'expla-test') . '
+                            </div>
+                            <div class="actions__external-link">
+                                <a href="' . get_permalink($post->ID) . '" class="external-link">
+                                    ' . esc_html__('Visit Site', 'expla-test') . '
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+            ';
         }
         wp_reset_postdata();
 

@@ -1,5 +1,98 @@
 .expla-shortcode-articles {
     --wp--style--global--content-size: 850px;
+    --expla-test-font-family: var(--wp--style--global--content-size);
     width: var(--wp--style--global--content-size);
     max-width: var(--wp--style--global--content-size);
+}
+
+.expla-shortcode-articles .shortcode-articles__title {
+    margin-bottom: 12px;
+    font-family: var(--expla-test-font-family);
+    font-size: 26px;
+    font-weight: 700;
+    line-height: 36px;
+    letter-spacing: 1px;
+}
+
+.expla-shortcode-articles .shortcode-articles__article {
+    display: flex;
+    margin-bottom: 30px;
+    box-shadow: 0px 1px 20px 0px rgba(15, 15, 15, 0.1);
+}
+
+.expla-shortcode-articles .article__img {
+    flex-basis: 350px;
+    flex-shrink: 0;
+    background-color: rgba(217, 217, 217, 1);
+}
+.expla-shortcode-articles .article__img img {
+    min-height: 190px;
+    height: 100%;
+    max-width: 100%;
+    object-fit: cover;
+}
+
+.expla-shortcode-articles .article__content {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    padding: 18px 26px 16px;
+}
+
+.expla-shortcode-articles .content__categories a {
+    text-transform: uppercase;
+    text-decoration: none;
+    color: rgb(171, 165, 197);
+    transition: 0.3s;
+}
+.expla-shortcode-articles .content__categories a:hover {
+    color: rgb(96, 69, 203);
+}
+
+.expla-shortcode-articles .content__title {
+    height: 100%;
+    margin-top: 13px;
+    font-family: var(--expla-test-font-family);
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 28px;
+    letter-spacing: 0.5px;
+}
+
+.expla-shortcode-articles .content__actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.expla-shortcode-articles .content__actions .actions__permalink {
+    flex-grow: 1;
+}
+.expla-shortcode-articles .content__actions .permalink {
+    font-family: var(--expla-test-font-family);
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 25px;
+    text-decoration: none;
+    color: rgb(96, 69, 203);
+    transition: 0.3s;
+}
+
+.expla-shortcode-articles .content__actions .external-link {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    width: 120px;
+    height: 40px;
+    font-family: var(--expla-test-font-family);
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 25px;
+    text-decoration: none;
+    color: #ffffff;
+    background-color: rgb(96, 69, 203);
+    transition: 0.3s;
+}
+.expla-shortcode-articles .content__actions .permalink:hover,
+.expla-shortcode-articles .content__actions .external-link:hover {
+    opacity: 0.85;
 }
