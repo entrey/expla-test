@@ -58,7 +58,17 @@ class ShortcodeArticles
     {
         $sort_allowed_values = [ 'date', 'title', 'rating' ];
         if (! in_array($this->atts['sort'], $sort_allowed_values)) {
-            throw new \InvalidArgumentException('Invalid shortcode value: ' . $this->atts['sort']);
+            throw new \InvalidArgumentException('Invalid shortcode argument `sort`: ' . $this->atts['sort']);
+        }
+
+        if ($this->atts['ids']) {
+            $ids = explode(',', $this->atts['ids']);
+            foreach ($ids as $id) {
+                if (intval($id) <= 0) {
+                    throw new \InvalidArgumentException('Invalid shortcode argument `ids`: ' . $this->atts['ids']);
+                }
+            }
+            $this->atts['ids'] = $ids;
         }
     }
 
@@ -72,8 +82,19 @@ class ShortcodeArticles
             'post_status' => 'publish'
         ];
 
+        switch ($this->atts['sort']) {
+            case 'title':
+                $args['order'] = 'ASC';
+                break;
+
+            case 'rating':
+                $args['orderby'] = 'meta_value_num';
+                $args['meta_key'] = 'post_rating';
+                break;
+        }
+
         if ($this->atts['ids']) {
-            $args['post__in'] = explode(',', $this->atts['ids']);
+            $args['post__in'] = $this->atts['ids'];
         }
 
         return get_posts($args);
@@ -104,7 +125,12 @@ class ShortcodeArticles
             if ($external_link) {
                 $external_html = '
                     <div class="actions__external-link">
-                        <a href="' . esc_url($external_link) . '" class="external-link">
+                        <a
+                            href="' . esc_url($external_link) . '"
+                            class="external-link"
+                            target="_blank"
+                            rel="nofollow"
+                        >
                             ' . esc_html__('Visit Site', 'expla-test') . '
                         </a>
                     </div>
