@@ -10,7 +10,7 @@
  *
  * @link              https://github.com/entrey
  * @since             1.0.0
- * @package           Expla_Test
+ * @package           ExplaTest
  *
  * @wordpress-plugin
  * Plugin Name:       Expla Test
@@ -25,53 +25,27 @@
  * Domain Path:       /languages
  */
 
-// If this file is called directly, abort.
-if ( ! defined( 'WPINC' ) ) {
-	die;
+function activateExplaTest()
+{
+    require_once plugin_dir_path(__FILE__) . 'includes/class-activator.php';
+    ExplaTest\Activator::activate();
 }
 
-define( 'EXPLA_TEST_VERSION', '1.0.0' );
-define( 'EXPLA_TEST_MAIN_FILE_URL', plugin_dir_url( __FILE__ ) );
-define( 'EXPLA_TEST_MAIN_FILE_PATH', plugin_dir_path( __FILE__ ) );
-
-/**
- * The code that runs during plugin activation.
- * This action is documented in includes/class-expla-test-activator.php
- */
-function activate_expla_test() {
-	require_once EXPLA_TEST_MAIN_FILE_PATH . 'includes/class-expla-test-activator.php';
-	Expla_Test_Activator::activate();
+function deactivateExplaTest()
+{
+    require_once plugin_dir_path(__FILE__) . 'includes/class-deactivator.php';
+    ExplaTest\Deactivator::deactivate();
 }
 
-/**
- * The code that runs during plugin deactivation.
- * This action is documented in includes/class-expla-test-deactivator.php
- */
-function deactivate_expla_test() {
-	require_once EXPLA_TEST_MAIN_FILE_PATH . 'includes/class-expla-test-deactivator.php';
-	Expla_Test_Deactivator::deactivate();
+register_activation_hook(__FILE__, 'activateExplaTest');
+register_deactivation_hook(__FILE__, 'deactivateExplaTest');
+
+/** The core plugin class. */
+require plugin_dir_path(__FILE__) . 'includes/class-core.php';
+
+function runExplaTest()
+{
+    $plugin = new ExplaTest\Core();
+    $plugin->run();
 }
-
-register_activation_hook( __FILE__, 'activate_expla_test' );
-register_deactivation_hook( __FILE__, 'deactivate_expla_test' );
-
-/**
- * The core plugin class that is used to define internationalization,
- * admin-specific hooks, and public-facing site hooks.
- */
-require EXPLA_TEST_MAIN_FILE_PATH . 'includes/class-expla-test.php';
-
-/**
- * Begins execution of the plugin.
- *
- * Since everything within the plugin is registered via hooks,
- * then kicking off the plugin from this point in the file does
- * not affect the page life cycle.
- *
- * @since    1.0.0
- */
-function run_expla_test() {
-	$plugin = new Expla_Test();
-	$plugin->run();
-}
-run_expla_test();
+runExplaTest();
