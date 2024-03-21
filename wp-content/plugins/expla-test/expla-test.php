@@ -31,13 +31,15 @@ if ( ! defined( 'WPINC' ) ) {
 }
 
 define( 'EXPLA_TEST_VERSION', '1.0.0' );
+define( 'EXPLA_TEST_MAIN_FILE_URL', plugin_dir_url( __FILE__ ) );
+define( 'EXPLA_TEST_MAIN_FILE_PATH', plugin_dir_path( __FILE__ ) );
 
 /**
  * The code that runs during plugin activation.
  * This action is documented in includes/class-expla-test-activator.php
  */
 function activate_expla_test() {
-	require_once plugin_dir_path( __FILE__ ) . 'includes/class-expla-test-activator.php';
+	require_once EXPLA_TEST_MAIN_FILE_PATH . 'includes/class-expla-test-activator.php';
 	Expla_Test_Activator::activate();
 }
 
@@ -46,7 +48,7 @@ function activate_expla_test() {
  * This action is documented in includes/class-expla-test-deactivator.php
  */
 function deactivate_expla_test() {
-	require_once plugin_dir_path( __FILE__ ) . 'includes/class-expla-test-deactivator.php';
+	require_once EXPLA_TEST_MAIN_FILE_PATH . 'includes/class-expla-test-deactivator.php';
 	Expla_Test_Deactivator::deactivate();
 }
 
@@ -57,7 +59,7 @@ register_deactivation_hook( __FILE__, 'deactivate_expla_test' );
  * The core plugin class that is used to define internationalization,
  * admin-specific hooks, and public-facing site hooks.
  */
-require plugin_dir_path( __FILE__ ) . 'includes/class-expla-test.php';
+require EXPLA_TEST_MAIN_FILE_PATH . 'includes/class-expla-test.php';
 
 /**
  * Begins execution of the plugin.

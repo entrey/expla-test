@@ -1,0 +1,5 @@
+.expla-shortcode-articles {
+    --wp--style--global--content-size: 850px;
+    width: var(--wp--style--global--content-size);
+    max-width: var(--wp--style--global--content-size);
+}

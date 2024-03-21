@@ -72,6 +72,9 @@ class Expla_Test {
 		/** Cron updater manager. */
 		require_once $dir_path . 'admin/class-expla-cron-updater.php';
 
+		/** Shortcode articles. */
+		require_once $dir_path . 'admin/class-expla-shortcode-articles.php';
+
 		/** Actions of public-facing side. */
 		require_once $dir_path . 'public/class-expla-test-public.php';
 
@@ -94,9 +97,11 @@ class Expla_Test {
 
 	private function define_public_hooks() {
 		$plugin_public = new Expla_Test_Public( $this->get_plugin_name(), $this->get_version() );
+		$shortcode_articles = new Expla_Shortcode_Articles();
 
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_styles' );
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );
+		$this->loader->add_action( 'wp_enqueue_scripts', $shortcode_articles, 'enqueue_styles' );
 	}
 
 	public function run() {
