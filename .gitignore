@@ -19,6 +19,7 @@ wp-content/plugins/*
 
 # Plugin whitelist
 !wp-content/plugins/expla-test
+wp-content/plugins/expla-test/vendor
 
 # Configuration
 wp-config.php
@@ -31,3 +32,6 @@ wp-config.php
 
 # IDE
 .vscode
+
+# Composer
+composer.lock
