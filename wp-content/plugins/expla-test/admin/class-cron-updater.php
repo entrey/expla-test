@@ -89,6 +89,7 @@ class CronUpdater
                 throw new \Error('Post creation error: ' . $post_id->get_error_message());
             }
 
+            $this->savePostMeta($post_id, $api_post);
             $attachment_id = $this->saveApiPostImage($api_post->image, $api_post->title);
             set_post_thumbnail($post_id, $attachment_id);
         }
@@ -129,6 +130,16 @@ class CronUpdater
         }
 
         return [ $category_id ];
+    }
+
+    protected function savePostMeta(int $post_id, object $api_post): void {
+        if ($api_post->rating) {
+            add_post_meta($post_id, 'post_rating', $api_post->rating);
+        }
+
+        if ($api_post->site_link) {
+            add_post_meta($post_id, 'post_external_link', $api_post->site_link);
+        }
     }
 
     protected function saveApiPostImage(string $img_url): int

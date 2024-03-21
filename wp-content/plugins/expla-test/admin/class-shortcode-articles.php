@@ -89,6 +89,28 @@ class ShortcodeArticles
         foreach ($posts as $post) {
             setup_postdata($post);
 
+            $rating_value = get_post_meta($post->ID, 'post_rating', true);
+            $rating_html = '';
+            if ($rating_value) {
+                $rating_html = '
+                    <div class="actions__rating" title="' . esc_html__('Rating', 'expla-test') . '">
+                        ⭐ ' . esc_html($rating_value) . '
+                    </div>
+                ';
+            }
+
+            $external_link = get_post_meta($post->ID, 'post_external_link', true);
+            $external_html = '';
+            if ($external_link) {
+                $external_html = '
+                    <div class="actions__external-link">
+                        <a href="' . esc_url($external_link) . '" class="external-link">
+                            ' . esc_html__('Visit Site', 'expla-test') . '
+                        </a>
+                    </div>
+                ';
+            }
+
             $result .= '
                 <article class="shortcode-articles__article">
                     <div class="article__img">
@@ -107,14 +129,8 @@ class ShortcodeArticles
                                     ' . esc_html__('Read More', 'expla-test') . '
                                 </a>
                             </div>
-                            <div class="actions__rating">
-                                ⭐ ' . esc_html__('4.3', 'expla-test') . '
-                            </div>
-                            <div class="actions__external-link">
-                                <a href="' . get_permalink($post->ID) . '" class="external-link">
-                                    ' . esc_html__('Visit Site', 'expla-test') . '
-                                </a>
-                            </div>
+                            ' . $rating_html . '
+                            ' . $external_html . '
                         </div>
                     </div>
                 </article>

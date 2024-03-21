@@ -1,6 +1,6 @@
 .expla-shortcode-articles {
     --wp--style--global--content-size: 850px;
-    --expla-test-font-family: var(--wp--style--global--content-size);
+    --expla-test-font-family: Roboto, Verdana, Geneva, Tahoma, sans-serif;
     width: var(--wp--style--global--content-size);
     max-width: var(--wp--style--global--content-size);
 }
@@ -75,6 +75,14 @@
     text-decoration: none;
     color: rgb(96, 69, 203);
     transition: 0.3s;
+}
+
+.expla-shortcode-articles .content__actions .actions__rating {
+    font-family: var(--expla-test-font-family);
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 20px;
+    color: rgb(171, 165, 197);
 }
 
 .expla-shortcode-articles .content__actions .external-link {
