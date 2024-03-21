@@ -44,10 +44,10 @@ class Core
     {
         $dir_path = plugin_dir_path(dirname(__FILE__));
 
-        /** Loader. */
+        /** Loader class. */
         require_once $dir_path . 'includes/class-loader.php';
 
-        /** Cron updater manager. */
+        /** Cron updater. */
         require_once $dir_path . 'admin/class-cron-updater.php';
 
         /** Shortcode articles. */

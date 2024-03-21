@@ -3,7 +3,7 @@
 namespace ExplaTest;
 
 /**
- * Cron updater manager.
+ * Cron updater.
  *
  * @package ExplaTest/admin
  * @author  Roman Peniaz <roman.peniaz@gmail.com>
@@ -57,7 +57,7 @@ class CronUpdater
         return $posts;
     }
 
-    protected function saveApiPosts(array $api_posts)
+    protected function saveApiPosts(array $api_posts): void
     {
         $author_id = $this->retrieveAdminId();
 
@@ -132,7 +132,8 @@ class CronUpdater
         return [ $category_id ];
     }
 
-    protected function savePostMeta(int $post_id, object $api_post): void {
+    protected function savePostMeta(int $post_id, object $api_post): void
+    {
         if ($api_post->rating) {
             add_post_meta($post_id, 'post_rating', $api_post->rating);
         }

@@ -3,7 +3,7 @@
 namespace ExplaTest;
 
 /**
- * Register all actions and filters for the plugin.
+ * Loader class.
  *
  *
  * @package ExplaTest/includes
