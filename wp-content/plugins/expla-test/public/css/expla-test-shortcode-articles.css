@@ -62,7 +62,7 @@
 .expla-shortcode-articles .content__actions {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 15px;
     margin-top: 13px;
 }
 .expla-shortcode-articles .content__actions .actions__permalink {
